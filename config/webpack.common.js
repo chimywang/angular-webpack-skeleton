@@ -70,8 +70,17 @@ const deployUrl = "";
 
 module.exports = {
   entry: {
-    polyfills: './src/polyfills.ts',
-    app: './src/main.ts',
+    "main": [
+      "./src/main.ts"
+    ],
+    "polyfills": [
+      "./src/polyfills.ts"
+    ],
+    "styles": [
+      "./src/styles/styles.scss"
+    ]
+    // polyfills: './src/polyfills.ts',
+    // app: './src/main.ts',
     // admin: AOT ? './src/admin.aot.ts' : './src/admin.ts',
   },
   resolve: {
@@ -282,7 +291,7 @@ module.exports = {
       showErrors: true,
       xhtml: true,
       // chunksSortMode: 'dependency',
-      chunks: ['polyfills', 'vendor', 'app'],
+      chunks: 'all', //['polyfills', 'vendor', 'app'],
       excludeChunks: [],
       template: TEMPLATE_PATH,
       filename: TEMPLATE_HTML,
