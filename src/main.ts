@@ -30,45 +30,48 @@
  */
 
 import { enableProdMode } from '@angular/core';
-import { bootloader } from '@angularclass/hmr';
+// import { bootloader } from '@angularclass/hmr';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AppModule } from './app/app.module';
-import { decorateModuleRef } from './environment';
+// import { decorateModuleRef } from './environment';
 
-import * as OfflinePluginRuntime from 'offline-plugin/runtime';
-OfflinePluginRuntime.install({
-  onUpdating: () => {
-    console.log('SW Event:', 'onUpdating');
-  },
-  onUpdateReady: () => {
-    console.log('SW Event:', 'onUpdateReady');
-    // Tells to new SW to take control immediately
-    // runtime.applyUpdate();
-    OfflinePluginRuntime.applyUpdate();
-  },
-  onUpdated: () => {
-    console.log('SW Event:', 'onUpdated');
-    // Reload the webpage to load into the new version
-    // window.location.reload();
-    location.reload();
-  },
-  onUpdateFailed: () => {
-    console.log('SW Event:', 'onUpdateFailed');
-  }
-});
+// import * as OfflinePluginRuntime from 'offline-plugin/runtime';
+// OfflinePluginRuntime.install({
+//   onUpdating: () => {
+//     console.log('SW Event:', 'onUpdating');
+//   },
+//   onUpdateReady: () => {
+//     console.log('SW Event:', 'onUpdateReady');
+//     // Tells to new SW to take control immediately
+//     // runtime.applyUpdate();
+//     OfflinePluginRuntime.applyUpdate();
+//   },
+//   onUpdated: () => {
+//     console.log('SW Event:', 'onUpdated');
+//     // Reload the webpage to load into the new version
+//     // window.location.reload();
+//     location.reload();
+//   },
+//   onUpdateFailed: () => {
+//     console.log('SW Event:', 'onUpdateFailed');
+//   }
+// });
 
 if (webpack.ENV === 'production') {
   enableProdMode();
 }
 
-/**
- * main function to boot the application.
- */
-export function main(): Promise<any> {
-  return platformBrowserDynamic()
-    .bootstrapModule(AppModule, { preserveWhitespaces: webpack.ENV !== 'production' })
-    .then(decorateModuleRef)
-    .catch((err: any) => console.error(err));
-}
+// /**
+//  * main function to boot the application.
+//  */
+// export function main(): Promise<any> {
+//   return platformBrowserDynamic()
+//     .bootstrapModule(AppModule, { preserveWhitespaces: webpack.ENV !== 'production' })
+//     .then(decorateModuleRef)
+//     .catch((err: any) => console.error(err));
+// }
+//
+// bootloader(main);
 
-bootloader(main);
+platformBrowserDynamic().bootstrapModule(AppModule)
+  .catch(err => console.log(err));

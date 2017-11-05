@@ -22,6 +22,8 @@
  * SOFTWARE.
  */
 
+const fs = require('fs');
+const path = require('path');
 const webpack = require('webpack');
 const DefinePlugin = require('webpack/lib/DefinePlugin');
 const HotModuleReplacementPlugin = require('webpack/lib/HotModuleReplacementPlugin');
@@ -51,48 +53,44 @@ const MAIN_SERVER_PATH = `http://${METADATA.host}:${METADATA.portServer}`;
 const DEV_SERVER_PATH = `http://${METADATA.host}:${METADATA.portWebpackDevServer}`;
 
 module.exports = webpackMerge(commonConfig, {
-  devtool: 'cheap-module-source-map',
   output: {
-    path: helpers.root('dist'),
-    filename: '[name].js',
-    sourceMapFilename: '[file].map',
-    chunkFilename: '[name].js',
-    publicPath: '/',
-    library: 'ac_[name]',
-    libraryTarget: 'var'
+    "path": path.join(process.cwd(), "dist"),
+    "filename": "[name].bundle.js",
+    "chunkFilename": "[id].chunk.js",
+    "crossOriginLoading": false
   },
-  devServer: {
-    hot: true, // MANDATORY FOR HMR
-    inline: true,
-    port: METADATA.portWebpackDevServer,
-    historyApiFallback: true,
-    watchOptions: {
-      aggregateTimeout: 300,
-      poll: 1000,
-      ignored: /node_modules/
-    },
-    stats: {colors: true},
-    proxy: {
-      //proxy all paths of the main
-      //server (executed with gulp (not with nodemon))
-      "/api/**": MAIN_SERVER_PATH
-    }
-  },
+  // devServer: {
+  //   hot: true, // MANDATORY FOR HMR
+  //   inline: true,
+  //   port: METADATA.portWebpackDevServer,
+  //   historyApiFallback: true,
+  //   watchOptions: {
+  //     aggregateTimeout: 300,
+  //     poll: 1000,
+  //     ignored: /node_modules/
+  //   },
+  //   stats: {colors: true},
+  //   proxy: {
+  //     //proxy all paths of the main
+  //     //server (executed with gulp (not with nodemon))
+  //     "/api/**": MAIN_SERVER_PATH
+  //   }
+  // },
   module: {
     rules: [
-      {
-        enforce: 'pre',
-        test: /\.ts$/,
-        use: [
-          {
-            loader: 'tslint-loader',
-            options: {
-              configFile: 'tslint.json'
-            }
-          }
-        ],
-        exclude: [/\.(spec|e2e)\.ts$/, /node_modules/]
-      },
+      // {
+      //   enforce: 'pre',
+      //   test: /\.ts$/,
+      //   use: [
+      //     {
+      //       loader: 'tslint-loader',
+      //       options: {
+      //         configFile: 'tslint.json'
+      //       }
+      //     }
+      //   ],
+      //   exclude: [/\.(spec|e2e)\.ts$/, /node_modules/]
+      // },
 
       /*
        * css loader support for *.css files (styles directory only)
@@ -116,11 +114,11 @@ module.exports = webpackMerge(commonConfig, {
     ]
   },
   plugins: [
-    new HotModuleReplacementPlugin(),
-    new ExtractTextPlugin({
-      filename: '[name].css',
-      allChunks: true
-    }),
+    // new HotModuleReplacementPlugin(),
+    // new ExtractTextPlugin({
+    //   filename: '[name].css',
+    //   allChunks: true
+    // }),
     new DefinePlugin({'webpack': {'ENV': JSON.stringify(METADATA.env)}}),
 
     // new AutoDllPlugin({
@@ -163,36 +161,42 @@ module.exports = webpackMerge(commonConfig, {
     //   }
     // }),
 
-    new BrowserSyncPlugin(
-      // BrowserSync options
-      {
-        // browse to http://${METADATA:host}:${METADATA.portBrowserSync}/
-        // during development
-        host: METADATA.host,
-        port: METADATA.portBrowserSync,
-        // proxy the Webpack Dev Server endpoint
-        // (which should be serving on DEV_SERVER_PATH) through BrowserSync
-        proxy: DEV_SERVER_PATH
-      },
-      // plugin options
-      {
-        // prevent BrowserSync from reloading the page
-        // and let Webpack Dev Server take care of this
-        // (useful if you want to use HMR)
-        reload: false
-      }
-    ),
-    new LoaderOptionsPlugin({
-      debug: true,
-      options: {}
-    }),
+    // new BrowserSyncPlugin(
+    //   // BrowserSync options
+    //   {
+    //     // browse to http://${METADATA:host}:${METADATA.portBrowserSync}/
+    //     // during development
+    //     host: METADATA.host,
+    //     port: METADATA.portBrowserSync,
+    //     // proxy the Webpack Dev Server endpoint
+    //     // (which should be serving on DEV_SERVER_PATH) through BrowserSync
+    //     proxy: DEV_SERVER_PATH
+    //   },
+    //   // plugin options
+    //   {
+    //     // prevent BrowserSync from reloading the page
+    //     // and let Webpack Dev Server take care of this
+    //     // (useful if you want to use HMR)
+    //     reload: false
+    //   }
+    // ),
+    // new LoaderOptionsPlugin({
+    //   debug: true,
+    //   options: {}
+    // }),
   ],
-  node: {
-    global: true,
-    crypto: 'empty',
-    process: true,
-    module: false,
-    clearImmediate: false,
-    setImmediate: false
+  "node": {
+    "fs": "empty",
+    "global": true,
+    "crypto": "empty",
+    "tls": "empty",
+    "net": "empty",
+    "process": true,
+    "module": false,
+    "clearImmediate": false,
+    "setImmediate": false
+  },
+  "devServer": {
+    "historyApiFallback": true
   }
 });

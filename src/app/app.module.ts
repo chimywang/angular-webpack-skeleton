@@ -30,7 +30,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ROUTES } from './app.routing';
 
 // Third party libraries that are using scss/css
-import 'bootstrap-loader';
+// import 'bootstrap-loader';
 // Additional styles used in this project
 import '../styles/styles.scss';
 import '../styles/headings.css';
