@@ -30,7 +30,7 @@ const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const webpackMerge = require('webpack-merge');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const AutoDllPlugin = require('autodll-webpack-plugin');
+// const AutoDllPlugin = require('autodll-webpack-plugin');
 
 const commonConfig = require('./webpack.common');
 const helpers = require('./helpers');
@@ -123,45 +123,45 @@ module.exports = webpackMerge(commonConfig, {
     }),
     new DefinePlugin({'webpack': {'ENV': JSON.stringify(METADATA.env)}}),
 
-    new AutoDllPlugin({
-      debug: true,
-      inject: true,
-      context: __dirname,
-      // this is the right way to do it, because my config files are in a subfolder (./config) and not inside the root folder
-      // context: path.join(__dirname, '..'),
-      filename: '[name]_[hash].js',
-      path: './dll',
-      entry: {
-        polyfills: [
-          'core-js',
-          'zone.js/dist/zone.js',
-          'zone.js/dist/long-stack-trace-zone'
-        ],
-        vendor: [
-          '@angular/platform-browser',
-          '@angular/platform-browser-dynamic',
-          '@angular/core',
-          '@angular/common',
-          '@angular/forms',
-          '@angular/http',
-          '@angular/router',
-          '@angularclass/hmr',
-          '@ngrx/store',
-          '@ngrx/store-devtools',
-          'rxjs',
-          '@ng-bootstrap/ng-bootstrap',
-          'style-loader',
-          'jquery',
-          'bootstrap-loader',
-          'hammerjs',
-          'lodash',
-          'mousetrap',
-          'ng2-validators',
-          'reflect-metadata',
-          'tether'
-        ]
-      }
-    }),
+    // new AutoDllPlugin({
+    //   debug: true,
+    //   inject: true,
+    //   context: __dirname,
+    //   // this is the right way to do it, because my config files are in a subfolder (./config) and not inside the root folder
+    //   // context: path.join(__dirname, '..'),
+    //   filename: '[name]_[hash].js',
+    //   path: './dll',
+    //   entry: {
+    //     polyfills: [
+    //       'core-js',
+    //       'zone.js/dist/zone.js',
+    //       'zone.js/dist/long-stack-trace-zone'
+    //     ],
+    //     vendor: [
+    //       '@angular/platform-browser',
+    //       '@angular/platform-browser-dynamic',
+    //       '@angular/core',
+    //       '@angular/common',
+    //       '@angular/forms',
+    //       '@angular/http',
+    //       '@angular/router',
+    //       '@angularclass/hmr',
+    //       '@ngrx/store',
+    //       '@ngrx/store-devtools',
+    //       'rxjs',
+    //       '@ng-bootstrap/ng-bootstrap',
+    //       'style-loader',
+    //       'jquery',
+    //       'bootstrap-loader',
+    //       'hammerjs',
+    //       'lodash',
+    //       'mousetrap',
+    //       'ng2-validators',
+    //       'reflect-metadata',
+    //       'tether'
+    //     ]
+    //   }
+    // }),
 
     new BrowserSyncPlugin(
       // BrowserSync options
